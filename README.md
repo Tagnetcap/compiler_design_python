@@ -1,69 +1,90 @@
-# Compiler Design Practicals (Python Edition)
+# Compiler Design & Parser Suite (Python)
 
-This directory contains simplified, easy-to-read, and beginner-friendly Python implementations of all 14 C practical programs from your Compiler Design lab.
-
----
-
-## 📁 Directory Structure & Mapping
-
-| # | Practical Name | Python Script | Original C File |
-|---|----------------|---------------|-----------------|
-| 1 | **FIRST & FOLLOW Computation** | `first_follow.py` | `First_Follow.c` |
-| 2 | **LL(1) Parser** | `ll1_parser.py` | `LL1_Parser.c` |
-| 3 | **LR(0) Simple Check** | `lr0_simple.py` | `LR0_Simple.c` |
-| 4 | **LR(0) Parsing Table** | `lr0_parser.py` | `LR0_Parser.c` |
-| 5 | **LR(0) Input String Check** | `lr0_input_string_check.py` | `LR0_Input_string_check.c` |
-| 6 | **SLR(1) Simple Check** | `slr1_simple.py` | `SLR1_Simple.c` |
-| 7 | **SLR(1) Parsing Table** | `slr1_parser.py` | `SLR1_Parser.c` |
-| 8 | **SLR(1) Input String Check** | `slr1_input_string_check.py` | `SLR1_Input_string_check.c` |
-| 9 | **CLR(1) Simple Check** | `clr1_simple.py` | `CLR1_Simple.c` |
-| 10 | **CLR(1) Parsing Table** | `clr1_parser.py` | `CLR1_Parser.c` |
-| 11 | **CLR(1) Input String Check** | `clr1_input_string_check.py` | `CLR1_Input_string_check.c` |
-| 12 | **LALR(1) Simple Check** | `lalr1_simple.py` | `LALR1_Simple.c` |
-| 13 | **LALR(1) Parsing Table** | `lalr1_parser.py` | `LALR1_Parser.c` |
-| 14 | **LALR(1) Input String Check** | `lalr1_input_string_check.py` | `LALR1_Input_string_check.c` |
-| - | **Interactive Master Menu** | `main_menu.py` | - |
+A modular, standalone Python toolkit implementing core syntax analysis algorithms, context-free grammar analysis, canonical item collection generation, parsing table construction, and shift-reduce execution engines.
 
 ---
 
-## ⚡ Key Improvements & Simplifications Over the Original C Code
+## Features
 
-1. **No Static Memory / Buffer Overflow Limits**:
-   - Replaced fixed `char[20][20]` arrays with dynamic Python lists and sets.
-2. **Built-in Set Operations**:
-   - Replaced manual `strchr` / loop union helpers with native Python `set()`, `update()`, and `- {'#'}` operations.
-3. **No Pointers or Manual String Slicing**:
-   - String slices like `rhs[dot:]` and `rhs[:dot] + '.' + rhs[dot:]` make item visualization immediate and readable.
-4. **Clean Tabular Formats**:
-   - Parsing tables and stack parsing traces are printed with aligned columns using Python f-strings.
-5. **Zero-Configuration Quick Test**:
-   - Every script allows you to simply press **Enter** to load a standard textbook grammar and test string automatically, avoiding typos during viva exams.
+- **Grammar Analysis**: Automated computation of FIRST and FOLLOW sets with epsilon (`#`) propagation.
+- **Top-Down Parsing**: LL(1) parsing table construction and deterministic predictive stack parsing.
+- **Bottom-Up LR Parsing Suites**:
+  - **LR(0)**: Canonical collection of item sets, transition diagrams, and table generation.
+  - **SLR(1)**: Follow-directed reduce conflict resolution and parsing.
+  - **CLR(1) / Canonical LR(1)**: Full LR(1) items with lookahead tracking and minimal conflict surface.
+  - **LALR(1)**: State merging on identical LR(1) cores with merged transition mapping.
+- **Trace & Simulation**: Step-by-step stack, input buffer, and action tracing (Shift, Reduce, Accept, Reject).
 
 ---
 
-## 🚀 How to Run
+## File Overview
 
-### Option 1: Using the Master Menu
+```
+compiler_design_python/
+├── main_menu.py                 # Interactive master CLI launcher
+├── first_follow.py              # FIRST and FOLLOW set computation
+├── ll1_parser.py                # LL(1) table generator & predictive parser
+├── lr0_simple.py                # LR(0) canonical items & grammar check
+├── lr0_parser.py                # LR(0) parsing table generator
+├── lr0_input_string_check.py    # LR(0) shift-reduce parsing engine
+├── slr1_simple.py               # SLR(1) items & grammar check
+├── slr1_parser.py               # SLR(1) parsing table generator
+├── slr1_input_string_check.py   # SLR(1) shift-reduce parsing engine
+├── clr1_simple.py               # CLR(1) LR(1) items & grammar check
+├── clr1_parser.py               # CLR(1) parsing table generator
+├── clr1_input_string_check.py   # CLR(1) shift-reduce parsing engine
+├── lalr1_simple.py              # LALR(1) core-merged items & grammar check
+├── lalr1_parser.py              # LALR(1) parsing table generator
+└── lalr1_input_string_check.py  # LALR(1) shift-reduce parsing engine
+```
+
+---
+
+## Grammar Specification Conventions
+
+| Symbol Type | Notation | Examples |
+|---|---|---|
+| **Non-Terminals** | Uppercase ASCII letters | `E`, `T`, `F`, `S`, `C` |
+| **Terminals** | Lowercase letters & ASCII operators | `a`, `b`, `c`, `d`, `i`, `+`, `*`, `(`, `)` |
+| **Epsilon ($\epsilon$)** | Hash character | `#` |
+| **Endmarker** | Dollar character | `$` (handled automatically) |
+| **Production Format** | `LHS=RHS` or `LHS->RHS` | `E=E+T`, `T=i`, `S=CC` |
+
+> **Note**: Pressing **Enter** at the prompt automatically runs a canonical benchmark grammar for that parser type.
+
+---
+
+## Quick Start
+
+### 1. Interactive Master Menu
+Launch the interactive launcher to select and run any algorithm:
 ```bash
 python main_menu.py
 ```
-This lets you pick any practical by number from 1 to 14.
 
-### Option 2: Running Individual Practicals
+### 2. Standalone Execution
+Every script is completely self-contained with no external dependencies:
+
 ```bash
+# Compute FIRST & FOLLOW sets
 python first_follow.py
+
+# Run LL(1) Parser
 python ll1_parser.py
-python lr0_input_string_check.py
+
+# Run SLR(1) String Parser
 python slr1_input_string_check.py
+
+# Run CLR(1) String Parser
 python clr1_input_string_check.py
+
+# Run LALR(1) String Parser
 python lalr1_input_string_check.py
 ```
 
 ---
 
-## 📝 Input Conventions
-- **Non-terminals**: Capital letters (`A`-`Z`).
-- **Terminals**: Lowercase letters or symbols (e.g. `a`, `b`, `c`, `d`, `i`, `+`, `*`, `(`, `)`).
-- **Epsilon**: Represented by `#`.
-- **Endmarker**: Automatically handled as `$`.
+## Requirements
 
+- Python 3.8+
+- Standard Library only (no third-party dependencies required)
