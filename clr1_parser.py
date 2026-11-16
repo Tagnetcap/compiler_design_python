@@ -1,4 +1,5 @@
 """
+
 Compiler Design Practical: CLR(1) Parsing Table Construction.
 Simplified Python implementation of CLR1_Parser.c
 """
@@ -239,4 +240,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
